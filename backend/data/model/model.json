@@ -1,0 +1,28 @@
+[
+    {
+        "name": "Random Forest",
+        "accuracy": 94.24,
+        "recall": 44.20
+    },
+    {
+        "name": "SVM",
+        "accuracy": 94.23,
+        "recall": 60.96
+    },
+    {
+        "name": "KNN",
+        "accuracy": 93.42,
+        "recall": 52.37
+    },
+    {
+        "name": "Neural Network",
+        "accuracy": 93.30,
+        "recall": 67.44
+    },
+
+    {
+        "name": "Bayesian",
+        "accuracy": 92.07,
+        "recall": 84.22
+    }
+]
