@@ -1,0 +1,25 @@
+# IDEs
+.vscode
+
+# parcel-bundler
+.cache
+dist
+.parcel-cache
+
+# other build systems
+build
+
+# npm
+node_modules
+
+# dotenv
+.env
+
+# dataRW (will be replaced by database later)
+backend/dataRW/*.*
+
+# classic
+.DS_Store
+
+# Cypress
+cypress/videos

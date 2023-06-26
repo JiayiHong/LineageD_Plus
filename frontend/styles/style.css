@@ -1,0 +1,645 @@
+body ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 15px;
+}
+
+body ul :hover{
+    background-color: #C6CFC7;
+}
+
+body li{
+    display: inline;
+    padding: 8px;
+    background-color: #A7B3AF; 
+}
+
+
+#diagram form {
+    display: block;
+    padding: 10px;
+}
+
+#diagram label{
+    padding-left: 20px;
+}
+
+#diagram #instructions{
+    float: left;
+}
+
+.col-sm-6 {
+    padding: 5px;
+}
+
+.col-sm-6 .float-child {
+    width: 50%;
+    float: left;
+    padding: 1%;
+}
+
+.col-sm-6 .mainView {
+    width: 100%;
+    float: left;
+    padding: 1%;
+}
+
+.operation{
+    padding-bottom: 8px;
+}
+
+.operation button{
+    margin-bottom: 8px;
+    margin-right: 5px;
+}
+
+.operation .operation_instruction {
+    position: relative;
+    border-right: 30px solid transparent;
+    border-top: 30px solid #939393;
+    height: 30px;
+    width: 190px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.operation .operation_instruction span{
+    font-size: 17px;
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: -27px;
+    left: 10px;
+}
+
+.col-sm-6 #mySidepanel {
+    height: 30%;
+    float: left;
+}
+
+.col-sm-6 p {
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    padding: 7px;
+}
+
+.col-sm-6 .rcorners {
+    border-radius: 5px 15px;
+    background: rgb(50, 50, 50);
+    width: 120px;
+    height: 35px; 
+}
+
+svg {
+    padding: 10px 0px 0px 10px;
+}
+
+.row {
+    float: left;
+    width: 100%;
+}
+
+.short-tree {
+    height: 250px;
+    font-size: 120%;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 3px;
+    background: #f0f0f0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+#tree {
+    float: right;
+    width: auto;
+    height: auto;
+    margin-top: 10px;
+}
+
+
+
+
+/* Tree nodes */
+text {
+    font-size: 15px;
+    text-anchor: middle;
+    /* fill: #4f442b; */
+    fill: black;
+    stroke: black;
+    stroke-width: 0.5px;
+}
+
+g > text.active {
+    font-size: 30px;
+}
+
+.rectangle {
+    fill: #75739F;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.rectangle.active {
+    fill: #FE9922;
+}
+
+.rectangle.inactive {
+    fill: #C4B9AC;
+}
+
+.active{
+    stroke: black;
+    stroke-width: 1px;
+    opacity: 0.8;
+}
+
+.ghostRectangle {
+    stroke: red;
+    stroke-width: 10;
+    opacity: 0.2;
+}
+
+.ghostRectangle.show{
+    display: block;
+}
+
+.ghostRectangle, .activeDrag .ghostRectangle{
+    display: none;
+}
+
+
+
+/* Slider Bar */
+/* #slider {
+    border: 1px solid #ccc;
+} */
+#slider_level{
+    float: left;
+}
+
+/* #mainsvg {
+    margin-top: 10px;
+} */
+
+.navbar {
+    padding-left: 1%;
+    padding-top: 1%;
+}
+
+#slider_explo_div p{
+    float: left;
+    width: 30%;
+}
+
+.axis text {
+    font: 10px sans-serif;
+}
+
+
+.sidepanel  {
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    height: 250px;
+    top: 0;
+    left: 0;
+    background-color: rgba(50, 50, 50, 0.8);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+  
+.sidepanel p {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size:15px;
+    color: #f1f1f1;
+    display: block;
+    transition: 0.3s;
+}
+.sidepanel .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+}
+  
+.openbtn {
+    width: 100px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+}
+  
+.openbtn:hover {
+    background-color:#555;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown button{
+    border: none;
+    text-align: left;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 120%;
+    z-index: 1;
+}
+  
+.dropdown-content .menu_option, .dropdown-content .memo{
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content .menu_option:hover {background-color: #ccc}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .openbtn {
+    background-color: #2980B9;
+}
+
+
+.dropdown-submenu{
+    position: relative;
+}
+
+.dropdown-subcontent{
+    display: none;
+    background-color: rgb(250, 250, 250);
+}
+
+.dropdown-subcontent .menu_option{
+    background-color: rgb(250, 250, 250);
+}
+
+.dropdown-submenu:hover .dropdown-subcontent{
+    display: block;
+}
+
+.dropdown-submenu .dropdown-subcontent {
+    left: 100%;
+}
+
+
+/* the fader will grey out the whole screen
+   when displayed */
+#fader {
+    opacity: 0.3;
+    background: black;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+/* progress animation */
+.loader::before,
+.loader::after {
+    content: "";
+    width: 1.8em;
+    height: 1.8em;
+    position: absolute;
+    border-radius: 4em;
+}
+
+.loader::before {
+    background: lightcoral;
+    left: 50%;
+    /* transform: translateX(10px); */
+    animation: MoveLeft 1s ease infinite;
+}
+.loader::after {
+    background: lightgreen;
+    right: 50%;
+    /* transform: translateX(-10px); */
+    animation: MoveRight 1s ease infinite;
+}
+
+@keyframes MoveRight {
+    0%{
+        transform: translateX(-10px);
+    }
+    50%{
+        transform: translateX(10px);
+        background: rgba(144, 238, 144, 0.7);
+    }
+    100%{
+        transform: translateX(-10px);
+    }
+}
+
+@keyframes MoveLeft {
+    0%{
+        transform: translateX(10px);
+    }
+    50%{
+        transform: translateX(-10px);
+        background: rgba(240, 128, 128, 0.7);
+    }
+    100%{
+        transform: translateX(10px);
+    }
+}
+
+#lassoSelect {
+    background-image: url("../figures/select.svg");
+    background-size: 37px 37px;
+    width: 40px;
+    height: 40px;
+}
+
+#lassoSelectAdd {
+    background-image: url("../figures/selectAdd.svg");
+    background-size: 37px 37px;
+    width: 40px;
+    height: 40px;
+}
+
+#lassoSelectSubtract {
+    background-image: url("../figures/selectSubtract.svg");
+    background-size: 37px 37px;
+    width: 40px;
+    height: 40px;
+}
+
+#clickSelectAdd {
+    background-image: url("../figures/clickAdd.svg");
+    background-size: 37px 37px;
+    width: 40px;
+    height: 40px;
+}
+
+#clickSelectSubtract {
+    background-image: url("../figures/clickSubtract.svg");
+    background-size: 37px 37px;
+    width: 40px;
+    height: 40px;
+}
+
+
+/* Choices Chips style */
+.chip {
+    padding: 0 12px;
+    background-color: rgb(224, 224, 224);
+    border-radius: 100px;
+    display: inline-flex;
+    margin: 4px;
+    color: rgba(0, 0, 0, .87);
+    align-items: center;
+    height: 32px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+}
+
+.chip .icon {
+    font-size: 16px;
+    color: rgba(0, 0, 0, .54);
+    width: 20px;
+    text-align: center;
+}
+
+.chip .icon--leadind {
+    margin: 2px 4px 0 -4px;
+}
+
+.chip .icon--trailing {
+    margin: 2px -4px 0 4px;
+}
+
+.chips__choice .chip.chip--active {
+    color: rgb(17, 64, 92);
+    background-color: rgba(17, 64, 92, 0.2);
+}
+
+.chips__filter .chip .chip--check {
+    display: none;
+}
+
+.chips__filter .chip.chip--active .chip--check {
+    display: block;
+}
+
+
+#models span {
+    position:relative; 
+    font-size:15px; 
+    font-weight:700;  
+    letter-spacing:0px; 
+    text-transform:uppercase; 
+    width:150px; 
+    text-align:center; 
+    margin:auto; 
+    white-space:nowrap; 
+    border:2px solid #222;
+    padding:3px 11px 3px 11px;
+    margin: 5px;
+}
+
+/* the checkbox */
+
+#similar_cells_box.col-sm-1{
+    padding-top: 10px;
+    padding-left: 0px;
+    margin-left: 0px;
+}
+
+#similar_cells_box.col-sm-3{
+    padding-top: 13px;
+    padding-right: 6px;
+    text-align: right;
+}
+
+.option-input {
+    display:inline-block;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    position: relative;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    transition: all 0.15s ease-out 0s;
+    background: #cbd1d8;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 0.5rem;
+    outline: none;
+    position: relative;
+    z-index: 1000;
+  }
+  .option-input:hover {
+    background: #9faab7;
+  }
+  .option-input:checked {
+    background: #555;
+  }
+  .option-input:checked::before {
+    width: 20px;
+    height: 20px;
+    display:flex;
+    content: '\f00c';
+    font-size: 15px;
+    font-weight:bold;
+    position: absolute;
+    align-items:center;
+    justify-content:center;
+    font-family:'Font Awesome 5 Free';
+  }
+  .option-input:checked::after {
+    -webkit-animation: click-wave 0.65s;
+    -moz-animation: click-wave 0.65s;
+    animation: click-wave 0.65s;
+    background: #555;
+    content: '';
+    display: block;
+    position: relative;
+    z-index: 100;
+  }
+
+
+/* The model weight slider */
+input[type='range'] {
+    overflow: hidden;
+    width: 80px;
+    -webkit-appearance: none;
+    background-color: rgb(220, 220, 220);
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+    height: 10px;
+    -webkit-appearance: none;
+    color: rgb(0, 240, 242);
+    margin-top: -1px;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    width: 13px;
+    -webkit-appearance: none;
+    height: 10px;
+    border: 2px solid rgb(179, 179, 197);
+    cursor: ew-resize;
+    background: white;
+    box-shadow: -80px 0 0 80px rgb(28, 178, 159);
+}
+
+/* Button style https://github.com/codrops/ButtonHoverStyles/blob/main/css/base.css */
+
+.button {
+	pointer-events: auto;
+	cursor: pointer;
+	background: #e1e1e1;
+	border: none;
+	padding: 0rem 0.5rem;
+	margin: 0;
+	font-family: inherit;
+	font-size: inherit;
+	position: relative;
+	display: inline-block;
+}
+
+.button::before,
+.button::after {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 50%;
+	height: 100%;
+    border-radius: 0.5rem;
+}
+
+/* Prediction button */
+.button--telesto {
+	overflow: hidden;
+	font-family: obvia, sans-serif;
+	font-weight: 600;
+	font-size: 15px;
+	color: #fff;
+    border-radius: 0.5rem;
+}
+
+.button--telesto span {
+	display: block;
+	position: relative;
+	z-index: 1;
+}
+
+.button--telesto > span {
+	overflow: hidden;
+	mix-blend-mode: difference;
+}
+
+.button--telesto:hover > span > span {
+	animation: MoveRightInitial 0.1s forwards, MoveRightEnd 0.3s forwards 0.2s;
+}
+
+@keyframes MoveRightInitial {
+	to {
+		transform: translate3d(105%,0,0);
+	}
+}
+
+@keyframes MoveRightEnd {
+	from {
+		transform: translate3d(-100%,0,0);
+	}
+	to {
+		transform: translate3d(0,0,0);
+	}
+}
+
+.button--telesto::before,
+.button--telesto::after {
+	content: '';
+	background: #000;
+}
+
+.button--telesto::before {
+	width: 135%;
+	-webkit-clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 0% 0%);
+	clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 0% 0%);
+	transform: translate3d(-100%,0,0);
+}
+
+.button--telesto:hover::before {
+	transform: translate3d(0,0,0);
+	transition: transform 0.3s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.button--telesto::after {
+	width: 105%;
+	transform: translate3d(100%,0,0);
+	transition: transform 0.3s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.button--telesto:hover::after {
+	transform: translate3d(0,0,0);
+	transition: transform 0.01s 0.3s cubic-bezier(0.7, 0, 0.2, 1);
+}

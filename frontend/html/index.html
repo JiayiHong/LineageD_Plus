@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <title>Cell Lineage</title>
+    <link rel="stylesheet" href="../styles/style.css" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" rel="stylesheet" crossorigin="anonymous"/>
+    <script src="https://unpkg.com/vtk.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/d3-simple-slider" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/colorbrewer.v1.min.js" crossorigin="anonymous"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+</head>
+<body>
+    <div id="fader"></div>
+    <div id="load"></div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="navbar">
+                <div class="dropdown">
+                    <button class="openbtn">Datasets <i class="icon icon-caret-down"></i></button>
+                    <div class="dropdown-content" data-cy="datasets-dropdown">
+                        <button class="menu_option" id="upload">Upload Dataset</button>
+                        <button class="menu_option">Export Assignments</button>
+                        <div class="dropdown-submenu">
+                            <div class="menu_option">Use Sample Datasets <i class="icon icon-caret-right"></i></div>
+                            <div class="dropdown-subcontent" data-cy="sample-datasets-dropdown">
+                                <button class="menu_option" id="cell16" data-cy="dataset-16">16 Cells</button>
+                                <button class="menu_option" id="cell32">64 Cells</button>
+                                <button class="menu_option" id="cell256">256 Cells</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="openbtn" onclick="openNav()">☰</button>
+                    <div class="dropdown-content">
+                        <div class="memo">Rotate: Mouse Drag</div>
+                        <div class="memo">Pan: Mouse Drag + Shift</div>
+                        <div class="memo">Pinch: Mouse Drag + Ctrl</div>
+                        <div class="memo">Zoom: Mouse Wheel</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div id="instructions_panel">
+                            <div class="operation">
+                                <div class="operation_instruction"><span>Color Modes</span></div>
+                                <form method="post" class="colorForm" id="colorForm">
+                                    <label><input type="radio" name="choice" value="district" checked="checked" /> By District</label>
+                                    <label><input type="radio" name="choice" value="area" /> By Normalized Shared Area</label>                                    <label><input type="radio" name="choice" value="random" /> Randomized</label>
+                                </form>
+                            </div>
+                            <div class="operation">
+                                <div class="operation_instruction"><span>Peeling</span></div>
+                                <div id="slider_peel"></div>
+                            </div>                           
+                            <div class="operation">
+                                <div class="operation_instruction"><span>Selections</span></div>
+                                <button id="lassoSelect" title="New selection" style="width: 40px; height: 40px;"></button>
+                                <button id="lassoSelectAdd" title="Add to selection" style="width: 40px; height: 40px;"></button>
+                                <button id="lassoSelectSubtract" title="Subtract from selection" style="width: 40px; height: 40px;"></button>
+                                <button id="clickSelectAdd" title="Click to Add" style="width: 40px; height: 40px;"></button>
+                                <button id="clickSelectSubtract" title="Click to Subtract" style="width: 40px; height: 40px;"></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="rcorners" id="window1">Target & Sister</p>
+                        <div id="sister"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="mainView"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="row" id="machineLearning">
+                    <div class="col-sm-12" style="border-style: solid; border-width: 5px; border-color: rgb(104, 104, 104);">
+                        <div class="row">
+                            <div class="col-sm-10" style="padding-left: 0px;">
+                                <div class="operation">
+                                    <div class="operation_instruction"><span>Features</span></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="featuresConfirmButton" class="button button--telesto" style="margin-top: 10px; position: absolute; right: 0%;"><span>Confirm</span></button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="chips__filter" id="features">
+                                <div class="chip chip--active" title="Normalized distance between two cells">
+                                    <span class="icon icon--leadind chip--check">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span>Distance</span>
+                                </div>
+                                <div class="chip chip--active" title="Normalized angle between two cells' centers vector and shared surface normal vector">
+                                    <span class="icon icon--leadind chip--check">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    Relative Angle
+                                </div>
+                                <div class="chip chip--active" title="Ratio of two cells' neighbor counts (numerator is always bigger than denominator)">
+                                    <span class="icon icon--leadind chip--check">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    Neighbor Counts
+                                </div>
+                                <div class="chip chip--active" title="Ratio of two cells' volumes (numerator is always bigger than denominator)">
+                                    <span class="icon icon--leadind chip--check">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    Volume
+                                </div>
+                                <div class="chip chip--active" title="Ratio of two cells' surfaces (numerator is always bigger than denominator)">
+                                    <span class="icon icon--leadind chip--check">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    Surface Area
+                                </div>
+                                <div class="chip chip--active" title="Ratio of the shared area with cells' surfaces">
+                                    <span class="icon icon--leadind chip--check">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    Shared Area
+                                </div>
+                                <div class="chip chip--active" title="Normalized layers of two cells in a pair">
+                                    <span class="icon icon--leadind chip--check">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    Layer
+                                </div>
+                                <div class="chip chip--active" title="Normalized generation">
+                                    <span class="icon icon--leadind chip--check">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    Generation
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8" style="padding-left: 0px;">
+                                <div class="operation">
+                                    <div class="operation_instruction"><span>Models</span></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3" id="similar_cells_box">
+                                Show Similar Cells
+                            </div>
+                            <div class="col-sm-1" id="similar_cells_box">
+                                <input id="similar_cells" type="checkbox" class="option-input checkbox" />
+                            </div>
+                            <!-- <div class="col-sm-2">
+                                <button id="modelConfirmButton" class="button button--telesto" style="margin-top: 10px; position: absolute; right: 0%;"><span>Confirm</span></button>
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="chips__filter" id="models">
+                                <span id="svm">SVM</span>
+                                <span id="rf">Random Forest</span>
+                                <span id="knn">KNN</span>
+                                <span id="nn">Neural Network</span>
+                                <span id="baye">Bayesian</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <svg id="model_performance"></svg>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-8" style="padding-left: 0px;">
+                                <div class="operation">
+                                    <div class="operation_instruction"><span>Models Weight</span></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="weightResetButton" class="button button--telesto" style="margin-top: 10px; position: absolute; right: 0%;"><span>Reset</span></button>
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="weightConfirmButton" class="button button--telesto" style="margin-top: 10px; position: absolute; right: 0%;"><span>Recalculate</span></button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 weight">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label>SVM</label>
+                                        <span></span>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input id="svm_weight" type="range" min="0" max="5" step="0.1" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 weight">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label>RF</label>
+                                        <span></span>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input id="rf_weight" type="range" min="0" max="5" step="0.1" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 weight">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label>KNN</label>
+                                        <span></span>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input id="knn_weight" type="range" min="0" max="5" step="0.1" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 weight">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label>NN</label>
+                                        <span></span>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input id="nn_weight" type="range" min="0" max="5" step="0.1" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 weight">
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label>Baye</label>
+                                        <span></span>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input id="baye_weight" type="range" min="0" max="5" step="0.1" value="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="diagram">
+                    <div class="row">
+                        <div class="col-sm-6" id="instructions">
+                            <label></label>
+                        </div>
+                        <div class="col-sm-6" id="slider_zoomTree"></div>
+                    </div>
+                </div>
+                <div class="row" id="diagram">
+                    <div class="col-sm-1">
+                        <div id="slider_level"></div>
+                    </div>
+                    <div class="col-sm-11" id="tree">
+                        <svg id="mainsvg"></svg>
+                        <div id="thumb_container"></div>
+                        <div id="target_neighbors"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="operation">
+                        <div class="operation_instruction"><span>Interactions</span></div>
+                        <button id="confirmButton" class="button button--telesto"><span>Confirm</span></button>
+                        <button id="wrongChildButton" class="button button--telesto"><span>Wrong Children</span></button>
+                        <button id="newSisterButton" class="button button--telesto"><span>New Sister</span></button>
+                        <button id="supportingButton" class="button button--telesto" style="margin-top: 5px;"><span>Supporting Cell</span></button>
+                        <div>
+                            <button id="predict_single" class="menu_option button button--telesto"><span>Predict New Level</span></button>
+                            <button id="re_predict" class="menu_option button button--telesto"><span>Re-predict This Level</span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <svg>    
+        <defs>
+        <pattern id="pattern"
+                x="0" y="0" width="4" height="4"
+                patternUnits="userSpaceOnUse">
+        <path id = "path" d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" strokeWidth = "1" stroke = "black"></path>
+        </pattern>
+        <pattern id="pattern_confirmed"
+                x="0" y="0" width="4" height="4"
+                patternUnits="userSpaceOnUse">
+        <path id = "path0" d="M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2" strokeWidth = "1" stroke = "green"></path>
+        </pattern>
+      </defs>
+    </svg>
+    <script type="module" src="../js/main.js"></script>
+    <script>
+        document.querySelectorAll('.chips__filter .chip').forEach((item, index) => {
+            item.onclick = function() {
+                this.classList.toggle("chip--active");
+            }
+        })
+    </script>
+</body>

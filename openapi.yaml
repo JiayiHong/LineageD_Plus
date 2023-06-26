@@ -1,0 +1,125 @@
+swagger: "2.0"
+info:
+  description: "Plant Embryo Website"
+  version: "1.0.0"
+  title: "Plant Embryo"
+  license:
+    name: "TO BE DEFINED"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "someserver.inria.fr"
+basePath: "/"
+tags:
+- name: "dataset"
+  description: "Datasets"
+- name: "job"
+  description: "jobs submitted to the ML model"
+schemes:
+- "https"
+- "http"
+paths:
+  /job:
+    post:
+      tags:
+      - "job"
+      summary: "Do a new calculation on the current dataset"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Dataset id for the ML"
+        required: true
+        schema:
+          type: object
+          required:
+            - datasetId
+          properties:
+            datasetId:
+              type: "integer"
+              format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Job"
+        "405":
+          description: "Invalid input"
+  /job/{jobId}:
+    get:
+      tags:
+      - "job"
+      summary: "Find job by ID"
+      description: "Returns a single job"
+      operationId: "getJobById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "ID of job to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Job"
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Job not found"
+  /dataset:
+    get:
+      tags:
+      - "dataset"
+      summary: "Get dataset list"
+      description: "List all datasets available for the current user"
+      operationId: "listAllDatasets"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Dataset"
+        "400":
+          description: "Invalid tag value"
+definitions:
+  Dataset:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      userId:
+        type: "integer"
+        format: "int64"
+      type:
+        type: "string"
+        description: "Dataset Type"
+        enum:
+        - "default"
+        - "uploaded"
+  Job:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      datasetId:
+        type: "integer"
+        format: "int64"
+      status:
+        type: "string"
+        description: "Job Status"
+        enum:
+        - "inProgress"
+        - "finished"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"

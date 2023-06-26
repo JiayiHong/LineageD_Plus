@@ -1,0 +1,44 @@
+{
+  "name": "embryo_web",
+  "version": "1.0.0",
+  "description": "a website helping with assignments for biologists by machine learning",
+  "scripts": {
+    "test": "cypress run",
+    "backend": "node static-backend/server.js",
+    "frontend": "parcel serve frontend/html/index.html",
+    "build": "parcel build frontend/html/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@atago0129/d3-v4-contextmenu": "^1.2.0",
+    "@tensorflow/tfjs": "^3.8.0",
+    "@tensorflow/tfjs-node": "^3.8.0",
+    "child_process": "^1.0.2",
+    "connect-mongo": "^4.4.1",
+    "cors": "^2.8.5",
+    "d3-simple-slider": "^1.10.4",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "fs": "0.0.1-security",
+    "keras": "^1.0.1",
+    "libsvm-js": "^0.2.1",
+    "ml-cross-validation": "^1.3.0",
+    "ml-knn": "^3.0.0",
+    "ml-naivebayes": "^4.0.0",
+    "ml-pls": "^4.1.1",
+    "ml-random-forest": "^2.1.0",
+    "ml-tanimoto": "^1.0.0",
+    "mongoose": "^5.13.5",
+    "numpy": "0.0.1",
+    "parcel": "^2.0.0-rc.0",
+    "readline": "^1.3.0",
+    "vtk.js": "^19.0.4"
+  },
+  "devDependencies": {
+    "cypress": "^8.3.0",
+    "node-gyp": "^8.1.0",
+    "nodemon": "^2.0.12"
+  }
+}
