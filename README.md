@@ -1,6 +1,6 @@
 # Website for Cell Lineages
 
-Website Link: https://plantembryo.saclay.inria.fr/
+Website Link: https://plantembryoml.saclay.inria.fr/
 
 **Cell Lineage Web** is the website allow biologists to freely do cell lineages with the help of Machine Learning.
 
