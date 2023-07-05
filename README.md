@@ -15,6 +15,9 @@ Website Link: https://plantembryoml.saclay.inria.fr/
 npm install
 ```
 
+```
+npm run build
+```
 ## Starting up
 ---
 
