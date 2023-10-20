@@ -7,6 +7,7 @@ Website Link: https://plantembryoml.saclay.inria.fr/
 ## Pre-Requisites
 
 * copy `.env.sample` to `.env` and edit variables accordingly
+* Note that the website cannot run on Macbooks with M1 chips since TensorflowJS is incompatible with them.
 
 ## Installation
 ---
