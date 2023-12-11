@@ -6,7 +6,7 @@
 
 * copy `.env.sample` to `.env` and edit variables accordingly
 * Note that the website cannot run on Macbooks with M1 chips since TensorflowJS is incompatible with them.
-* To use the Windows system, it would be better to use stable Node.js and npm versions. We tested on Node.js (v14.17.1) and npm (v7.7.6), and it works well.
+* It would be better to use stable Node.js and npm versions. We tested on Node.js (v14.17.1) and npm (v7.7.6), and it works well.
 
 ## Installation
 ---
